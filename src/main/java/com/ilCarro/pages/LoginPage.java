@@ -1,8 +1,12 @@
 package com.ilCarro.pages;
 
+import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+import java.util.Map;
 
 import static java.awt.SystemColor.text;
 
@@ -29,9 +33,20 @@ public class LoginPage extends BasePage{
     }
     @FindBy(css=".message")
     WebElement message;
-    public LoginPage isSuccesMessageDisplaed(String text) {
+    public LoginPage isMessageDisplayed(String text) {
+        pause(1000);
         assert message.getText().contains(text);
+        pause(3000);
 
+        return this;
+    }
+
+    public LoginPage enterInvalidPassword(DataTable table) {
+        List<Map<String,String>> dataTable=table.asMaps();
+
+        String email =dataTable.get(0).get("email");
+        String password = dataTable.get(0).get("password");
+        enterData(email,password);
         return this;
     }
 }

@@ -14,29 +14,34 @@ public class SearchCarPage extends BasePage {
 
     public SearchCarPage(WebDriver driver) {
         super(driver);
-
     }
-    @FindBy(css = "#city:nth-child(1)")
+
+    @FindBy(css = "[ng-reflect-name='city']")
     WebElement Select_City;
     @FindBy(css = "html")
     WebElement space;
-    public SearchCarPage selectCity(String city) {
-        Select_City.sendKeys(city);
-        //Select_City.sendKeys(Keys.ENTER);
-        click(space);
+    public SearchCarPage selectCityFirstInList(String cityName) {
+        Select_City.sendKeys(cityName);
+        pause(1000);
+        Select_City.sendKeys(Keys.ARROW_DOWN);
+        pause(500);
+        Select_City.sendKeys(Keys.ENTER);
+
         return this;
     }
-    @FindBy(xpath = "//input[@class='ng-touched ng-dirty ng-invalid']")
+    @FindBy(css = "[ng-reflect-name='dates']")
     WebElement InputDate;
 
     public SearchCarPage chooseDate(String text) {
         InputDate.sendKeys(text);
+        pause(1500);
         return this;
     }
-    @FindBy(xpath = "//button[@disabled and @xpath='1' and text()='Search']")
-    WebElement Search;
-    public SearchCarPage clickSearchButton() {
-        click(Search);
+    @FindBy(css = "[type='submit']")
+    WebElement Yalla;
+    public SearchCarPage clickYallaButton() {
+        click(Yalla);
+        pause(3500);
         return this;
     }
 
@@ -44,11 +49,27 @@ public class SearchCarPage extends BasePage {
 
     @FindBy(xpath = "//span[text()='Chevrolet Comaro']")
     WebElement cars;
-    public SearchCarPage verifySearchResult(String text) {
-        Assert.assertTrue(shouldHaveText(cars,"Chevrolet Comaro",10));
+    public SearchCarPage verifySearchResult() {
+        String actualText = cars.getText();
+        String expectedText = "Chevrolet Comaro2020";
+
+        Assert.assertEquals(expectedText, actualText);
 
         return this;
     }
 
+
+    @FindBy(css = ".positive-button")
+    WebElement OKButton;
+    public SearchCarPage clickOKButton() {
+        click(OKButton);
+        return this;
+    }
+//    @FindBy(css = "")
+//    WebElement SearchLink;
+//    public SearchCarPage clickSearchLink() {
+//        click(SearchLink);
+//        return this;
+//    }
 
 }

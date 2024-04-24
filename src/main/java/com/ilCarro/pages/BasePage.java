@@ -15,19 +15,21 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
-    public void launchBrowser(){
-        driver =new ChromeDriver();
+    public void launchBrowser() {
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
     }
-    public void openUrl(){
+
+    public void openUrl() {
         driver.get("https://ilcarro.web.app");
 
     }
+
     public void click(WebElement element) {
         element.click();
     }
@@ -39,7 +41,8 @@ public abstract class BasePage {
             element.sendKeys(text);
         }
     }
-    public boolean isElementDisplayed(WebElement element){
+
+    public boolean isElementDisplayed(WebElement element) {
         return element.isDisplayed();
     }
 
@@ -47,12 +50,17 @@ public abstract class BasePage {
     public void quite() {
         driver.quit();
     }
+
     public boolean shouldHaveText(WebElement element, String text, int time) {
         return new WebDriverWait(driver, Duration.ofSeconds(time))
                 .until(ExpectedConditions.textToBePresentInElement(element, text));
     }
-    public void navigatePage() {
-        driver.get("https://ilcarro.web.app/search ");
-
+    public void pause(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
